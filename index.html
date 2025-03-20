@@ -66,7 +66,7 @@
         </a>
 
         <!-- Form for MTurk submission -->
-        <form id="mturk_form" name="mturk_form" method="post" action="https://workersandbox.mturk.com/mturk/externalSubmit">
+        <form id="mturk_form" name="mturk_form" method="post">
             <!-- Hidden fields for assignmentId and workerId -->
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <input type="hidden" name="workerId" id="workerId" value="">
@@ -80,7 +80,6 @@
     </div>
 
     <script>
-        // Function to set the assignmentId and workerId dynamically
         function setMTurkParameters() {
             var urlParams = new URLSearchParams(window.location.search);
             var assignmentId = urlParams.get('assignmentId');
@@ -92,9 +91,16 @@
             if (workerId) {
                 document.getElementById('workerId').value = workerId;
             }
+
+            // ✅ Detect Sandbox or Production and set form action dynamically
+            var mturkForm = document.getElementById("mturk_form");
+            if (window.location.hostname.includes("workersandbox")) {
+                mturkForm.action = "https://workersandbox.mturk.com/mturk/externalSubmit";
+            } else {
+                mturkForm.action = "https://www.mturk.com/mturk/externalSubmit";
+            }
         }
 
-        // Run function on page load
         setMTurkParameters();
     </script>
 
