@@ -61,10 +61,10 @@
     <div class="center-container">
         <h2>Complete the Task</h2>
 
-        <!-- Button to open the document URL -->
-        <p id="document-button-container">
-            <a id="document-link" href="#" target="_blank" class="big-button">
-                📄 Open Document
+        <!-- Button to open the task URL with all required parameters -->
+        <p id="task-button-container">
+            <a id="task-link" href="#" target="_blank" class="big-button">
+                🔗 Open Task
             </a>
         </p>
 
@@ -73,6 +73,7 @@
             <!-- Hidden fields for assignmentId and workerId -->
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <input type="hidden" name="workerId" id="workerId" value="">
+            <input type="hidden" name="document_url" id="document_url" value="">
 
             <p><strong>Enter your code here:</strong></p>
             <input type="text" name="answer" class="input-box" required>
@@ -95,15 +96,18 @@
             if (workerId) {
                 document.getElementById('workerId').value = workerId;
             }
-
-            // ✅ Set the document URL dynamically
             if (documentUrl) {
-                var documentLink = document.getElementById("document-link");
-                documentLink.href = decodeURIComponent(documentUrl);
-                documentLink.style.display = "inline-block"; // Make sure it's visible
-            } else {
-                document.getElementById("document-button-container").innerHTML = "<p><strong>No document provided.</strong></p>";
+                document.getElementById('document_url').value = documentUrl;
             }
+
+            // ✅ Set the Open Task button to include all parameters
+            var taskUrl = "https://aman170211.github.io/Fill_page/";
+            if (assignmentId && workerId && documentUrl) {
+                taskUrl += `?assignmentId=${encodeURIComponent(assignmentId)}&workerId=${encodeURIComponent(workerId)}&document_url=${encodeURIComponent(documentUrl)}`;
+            }
+
+            document.getElementById("task-link").href = taskUrl;
+            document.getElementById("task-link").style.display = "inline-block";
 
             // ✅ Detect Sandbox or Production and set form action dynamically
             var mturkForm = document.getElementById("mturk_form");
