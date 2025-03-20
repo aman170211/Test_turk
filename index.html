@@ -67,7 +67,9 @@
 
         <!-- Form for MTurk submission -->
         <form id="mturk_form" name="mturk_form" method="post" action="https://workersandbox.mturk.com/mturk/externalSubmit">
+            <!-- Hidden fields for assignmentId and workerId -->
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
+            <input type="hidden" name="workerId" id="workerId" value="">
 
             <p><strong>Enter your code here:</strong></p>
             <input type="text" name="answer" class="input-box" required>
@@ -78,7 +80,22 @@
     </div>
 
     <script>
-        turkSetAssignmentID();
+        // Function to set the assignmentId and workerId dynamically
+        function setMTurkParameters() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var assignmentId = urlParams.get('assignmentId');
+            var workerId = urlParams.get('workerId');
+
+            if (assignmentId) {
+                document.getElementById('assignmentId').value = assignmentId;
+            }
+            if (workerId) {
+                document.getElementById('workerId').value = workerId;
+            }
+        }
+
+        // Run function on page load
+        setMTurkParameters();
     </script>
 
 </body>
