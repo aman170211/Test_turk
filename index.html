@@ -30,6 +30,7 @@
             cursor: pointer;
             text-decoration: none;
             margin-bottom: 20px;
+            display: inline-block;
         }
         .big-button:hover {
             background-color: #0056b3;
@@ -60,10 +61,12 @@
     <div class="center-container">
         <h2>Complete the Task</h2>
 
-        <!-- Button to open the task in a new tab -->
-        <a href="https://your-task-url.com" target="_blank" class="big-button">
-            🔗 Open Task
-        </a>
+        <!-- Button to open the document URL -->
+        <p id="document-button-container">
+            <a id="document-link" href="#" target="_blank" class="big-button">
+                📄 Open Document
+            </a>
+        </p>
 
         <!-- Form for MTurk submission -->
         <form id="mturk_form" name="mturk_form" method="post">
@@ -84,12 +87,22 @@
             var urlParams = new URLSearchParams(window.location.search);
             var assignmentId = urlParams.get('assignmentId');
             var workerId = urlParams.get('workerId');
+            var documentUrl = urlParams.get('document_url');
 
             if (assignmentId) {
                 document.getElementById('assignmentId').value = assignmentId;
             }
             if (workerId) {
                 document.getElementById('workerId').value = workerId;
+            }
+
+            // ✅ Set the document URL dynamically
+            if (documentUrl) {
+                var documentLink = document.getElementById("document-link");
+                documentLink.href = decodeURIComponent(documentUrl);
+                documentLink.style.display = "inline-block"; // Make sure it's visible
+            } else {
+                document.getElementById("document-button-container").innerHTML = "<p><strong>No document provided.</strong></p>";
             }
 
             // ✅ Detect Sandbox or Production and set form action dynamically
