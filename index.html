@@ -98,7 +98,7 @@
       // Build Open Task link
       let taskUrl = "https://aman170211.github.io/Fill_page/";
       if (assignmentId && workerId && documentUrl && formUrl) {
-        taskUrl += `?document_url=${encodeURIComponent(documentUrl)}&form_url=${encodeURIComponent(formUrl)}&assignmentId=${encodeURIComponent(assignmentId)}&workerId=${encodeURIComponent(workerId)}`;
+        taskUrl += `?document_url=${encodeURIComponent(documentUrl)}&form_url=${encodeURIComponent(formUrl)}%26assignmentId=${encodeURIComponent(assignmentId)}%26workerId=${encodeURIComponent(workerId)}`;
       }
 
       document.getElementById("task-link").href = taskUrl;
