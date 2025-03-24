@@ -85,11 +85,14 @@
 
     <script>
         function setMTurkParameters() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var assignmentId = urlParams.get('assignmentId');
-            var workerId = urlParams.get('workerId');
-            var documentUrl = urlParams.get('document_url');
+            const urlParams = new URLSearchParams(window.location.search);
 
+            const assignmentId = urlParams.get('assignmentId');
+            const workerId = urlParams.get('workerId');
+            const documentUrl = urlParams.get('document_url');
+            const formUrl = urlParams.get('form_url');
+
+            // Set hidden fields for MTurk submission
             if (assignmentId) {
                 document.getElementById('assignmentId').value = assignmentId;
             }
@@ -100,17 +103,17 @@
                 document.getElementById('document_url').value = documentUrl;
             }
 
-            // ✅ Set the Open Task button to include all parameters
-            var taskUrl = "https://aman170211.github.io/Fill_page/";
-            if (assignmentId && workerId && documentUrl) {
-                taskUrl += `?assignmentId=${encodeURIComponent(assignmentId)}&workerId=${encodeURIComponent(workerId)}&document_url=${encodeURIComponent(documentUrl)}`;
+            // Set the Open Task button with the correct URL
+            let taskUrl = "https://aman170211.github.io/Fill_page/";
+            if (assignmentId && workerId && documentUrl && formUrl) {
+                taskUrl += `?assignmentId=${encodeURIComponent(assignmentId)}&workerId=${encodeURIComponent(workerId)}&document_url=${encodeURIComponent(documentUrl)}&form_url=${encodeURIComponent(formUrl)}`;
             }
 
             document.getElementById("task-link").href = taskUrl;
             document.getElementById("task-link").style.display = "inline-block";
 
-            // ✅ Detect Sandbox or Production and set form action dynamically
-            var mturkForm = document.getElementById("mturk_form");
+            // Set correct MTurk form action (sandbox or prod)
+            const mturkForm = document.getElementById("mturk_form");
             if (window.location.hostname.includes("workersandbox")) {
                 mturkForm.action = "https://workersandbox.mturk.com/mturk/externalSubmit";
             } else {
