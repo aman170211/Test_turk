@@ -70,7 +70,6 @@
 
         <!-- Form for MTurk submission -->
         <form id="mturk_form" name="mturk_form" method="post">
-            <!-- Hidden fields for assignmentId and workerId -->
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <input type="hidden" name="workerId" id="workerId" value="">
             <input type="hidden" name="document_url" id="document_url" value="">
@@ -92,7 +91,6 @@
             const documentUrl = urlParams.get('document_url');
             const formUrl = urlParams.get('form_url');
 
-            // Set hidden fields for MTurk submission
             if (assignmentId) {
                 document.getElementById('assignmentId').value = assignmentId;
             }
@@ -103,7 +101,6 @@
                 document.getElementById('document_url').value = documentUrl;
             }
 
-            // ✅ YOUR original logic preserved here
             let taskUrl = "https://aman170211.github.io/Fill_page/";
             if (assignmentId && workerId && documentUrl && formUrl) {
                 taskUrl += `?document_url=${encodeURIComponent(documentUrl)}&form_url=${encodeURIComponent(formUrl)}&assignmentId=${encodeURIComponent(assignmentId)}&workerId=${encodeURIComponent(workerId)}`;
@@ -112,12 +109,17 @@
             document.getElementById("task-link").href = taskUrl;
             document.getElementById("task-link").style.display = "inline-block";
 
-            // Set correct MTurk form action (sandbox or prod)
             const mturkForm = document.getElementById("mturk_form");
             if (window.location.hostname.includes("workersandbox")) {
                 mturkForm.action = "https://workersandbox.mturk.com/mturk/externalSubmit";
             } else {
                 mturkForm.action = "https://www.mturk.com/mturk/externalSubmit";
+            }
+
+            // ✅ Disable form submission in preview mode
+            if (assignmentId === "ASSIGNMENT_ID_NOT_AVAILABLE") {
+                document.querySelector(".submit-button").disabled = true;
+                document.querySelector(".submit-button").value = "Accept HIT to Submit";
             }
         }
 
